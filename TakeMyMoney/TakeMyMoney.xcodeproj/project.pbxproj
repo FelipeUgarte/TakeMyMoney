@@ -89,6 +89,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C49F5DA29984B2F0062A3C7 /* PaymentForm */ = {
+			isa = PBXGroup;
+			children = (
+				0CEB65DD2981CBB5003A462C /* View */,
+				0CEB65DE2981CBBC003A462C /* ViewModel */,
+				0C51A7E62975EECA00B824EF /* Model */,
+			);
+			path = PaymentForm;
+			sourceTree = "<group>";
+		};
+		0C49F5DB29984B500062A3C7 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				0C373FE4298DA6D700D7D435 /* MainTitle.swift */,
+				0CEB65DF2981CBF7003A462C /* CustomTextField.swift */,
+				0CEB65E32981CF65003A462C /* PaymentOptionButton.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
+		0C49F5DC29984B7E0062A3C7 /* SharedComponents */ = {
+			isa = PBXGroup;
+			children = (
+				0C49F5DD29984B920062A3C7 /* Styles */,
+			);
+			path = SharedComponents;
+			sourceTree = "<group>";
+		};
+		0C49F5DD29984B920062A3C7 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				0C373FE6298DA78900D7D435 /* TextFilesStyles.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
 		0C51A7B029730C8300B824EF = {
 			isa = PBXGroup;
 			children = (
@@ -113,9 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				0C51A7BC29730C8300B824EF /* TakeMyMoneyApp.swift */,
-				0CEB65DD2981CBB5003A462C /* View */,
-				0CEB65DE2981CBBC003A462C /* ViewModel */,
-				0C51A7E62975EECA00B824EF /* Model */,
+				0C49F5DA29984B2F0062A3C7 /* PaymentForm */,
+				0C49F5DC29984B7E0062A3C7 /* SharedComponents */,
 				0C51A7C029730C8400B824EF /* Assets.xcassets */,
 				0C51A7C229730C8400B824EF /* Preview Content */,
 			);
@@ -162,10 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				0C51A7BE29730C8300B824EF /* PaymentFormView.swift */,
-				0CEB65DF2981CBF7003A462C /* CustomTextField.swift */,
-				0CEB65E32981CF65003A462C /* PaymentOptionButton.swift */,
-				0C373FE4298DA6D700D7D435 /* MainTitle.swift */,
-				0C373FE6298DA78900D7D435 /* TextFilesStyles.swift */,
+				0C49F5DB29984B500062A3C7 /* Subviews */,
 			);
 			path = View;
 			sourceTree = "<group>";
