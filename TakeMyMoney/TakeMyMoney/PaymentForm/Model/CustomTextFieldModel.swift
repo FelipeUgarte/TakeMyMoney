@@ -10,6 +10,7 @@ import SwiftUI
 class CustomTextFieldModel: ObservableObject {
     var title: String
     var value: String
+    var unformatedValue: String
     var itemLength: Int?
     let placeholder: String?
     var showError: Bool
@@ -19,6 +20,7 @@ class CustomTextFieldModel: ObservableObject {
 
     init(title: String,
          value: String = "",
+         unformatedValue: String = "",
          placeholder: String? = nil,
          keyboardType: UIKeyboardType = .default,
          showError: Bool = false,
@@ -28,6 +30,7 @@ class CustomTextFieldModel: ObservableObject {
     ) {
         self.title = title
         self.value = value
+        self.unformatedValue = unformatedValue
         self.placeholder = placeholder
         self.keyboardType = keyboardType
         self.showError = showError

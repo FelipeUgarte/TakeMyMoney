@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PaymentFormView: View {
-    @State var someText = ""
     @StateObject var viewModel = PaymentFormViewModel()
 
     var body: some View {
@@ -51,26 +50,28 @@ struct PaymentFormView: View {
 
                     // TODO: Extract the credit card to a new view, it need to change to match the paiment option selected
                     VStack(spacing: 16.0) {
-                        CustomTextField(components: $viewModel.creditCard)
-                            .onChange(of: viewModel.creditCard.value) { newValue in
-                                someText = viewModel.hideCharacters(stringToChange: viewModel.creditCard.value, offset: 4, simbol: "*")
-                            }
-                        Text(someText)
+                        CustomTextField(
+                            components: $viewModel.creditCard)
+                        .onChange(of: viewModel.creditCard.value) { _ in
+                            viewModel.formatCreditCard()
+                        }
+                        Text(viewModel.creditCard.unformatedValue)
 
                         HStack(spacing: 16.0) {
-                            CustomTextField(components: $viewModel.expirationDate)
+                            CustomTextField(
+                                components: $viewModel.expirationDate)
 
-                            CustomTextField(components: $viewModel.cvv)
-                                .onChange(of: viewModel.cvv.value) { _ in
-                                    if viewModel.cvv.value.count == 4 {
-                                        viewModel.cvv.value = String(viewModel.cvv.value.dropLast())
-                                    }
-
-//                                    someText = viewModel.hideCharacters(stringToChange: viewModel.cvv.value, simbol: "*")
+                            CustomTextField(
+                                components: $viewModel.cvv)
+                            .onChange(of: viewModel.cvv.value) { _ in
+                                if viewModel.cvv.value.count == 4 {
+                                    viewModel.cvv.value = String(viewModel.cvv.value.dropLast())
                                 }
+                            }
                         }
                         
-                        CustomTextField(components: $viewModel.cardHolder)
+                        CustomTextField(
+                            components: $viewModel.cardHolder)
                     }
 
                     Toggle(isOn: $viewModel.saveCard) {
