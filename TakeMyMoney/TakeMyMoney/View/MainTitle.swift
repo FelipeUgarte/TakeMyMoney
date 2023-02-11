@@ -8,13 +8,33 @@
 import SwiftUI
 
 struct MainTitle: View {
+    @Binding var titleText: String
+    var showError: Binding<Bool>?
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if let showError = showError {
+            Text(titleText)
+                .tracking(2)
+                .font(.body)
+//                .textCase(.uppercase)
+                .foregroundColor(showError.wrappedValue ? Color(.red) : Color(.black))
+                .padding(.bottom, 4)
+
+        } else {
+            Text(titleText)
+                .tracking(2)
+                .font(.body)
+                .textCase(.uppercase)
+                .foregroundColor(Color(.black))
+                .padding(.bottom, 4)
+        }
     }
 }
 
+
 struct MainTitle_Previews: PreviewProvider {
     static var previews: some View {
-        MainTitle()
+        MainTitle(titleText: .constant("Title"),
+                  showError: .constant(false))
     }
 }

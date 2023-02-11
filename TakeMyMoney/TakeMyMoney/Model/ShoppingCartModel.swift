@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct ShoppingCartModel {
+    var total: String = "2.800,00"
+}

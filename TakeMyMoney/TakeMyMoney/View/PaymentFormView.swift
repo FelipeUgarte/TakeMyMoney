@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct PaymentFormView: View {
-    @StateObject var paymentData = PaymentModel()
-    @StateObject var creditCard = CreditCardModel()
-    @State var saveCard: Bool = false
+    @State var someText = ""
+    @StateObject var viewModel = PaymentFormViewModel()
 
     var body: some View {
         NavigationStack {
@@ -21,7 +20,7 @@ struct PaymentFormView: View {
                             Text("Total price")
                                 .font(.caption)
 
-                            Text("$,2,280.00")
+                            Text("$\(viewModel.shoppingCart.total)")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundColor(.blue)
@@ -35,39 +34,46 @@ struct PaymentFormView: View {
                                 .font(.caption)
                             ScrollView(.horizontal) {
                                 HStack {
-                                    PaymentOptionButton(title: paymentData.paymentMethod[0].title,
-                                                        state: $paymentData.paymentMethod [0].state)
-                                    PaymentOptionButton(title: paymentData.paymentMethod[0].title,
-                                                        state: $paymentData.paymentMethod[0].state)
-                                    PaymentOptionButton(title: paymentData.paymentMethod[2].title,
-
-                                                        state: $paymentData.paymentMethod[2].state)
+                                    PaymentOptionButton(
+                                        title: viewModel.paymentData.paymentMethod[0].title.rawValue,
+                                        state: $viewModel.paymentData.paymentMethod [0].state)
+                                    PaymentOptionButton(
+                                        title: viewModel.paymentData.paymentMethod[1].title.rawValue,
+                                        state: $viewModel.paymentData.paymentMethod[1].state)
+                                    PaymentOptionButton(
+                                        title: viewModel.paymentData.paymentMethod[2].title.rawValue,
+                                        state: $viewModel.paymentData.paymentMethod[2].state)
                                 }
                             }
                         }
                         Spacer()
                     }
+
+                    // TODO: Extract the credit card to a new view, it need to change to match the paiment option selected
                     VStack(spacing: 16.0) {
-                        CustomTextField(titleText: "Card number",
-                                        placeholder: "**** **** **** ****",
-                                        value: $creditCard.numberValue)
+                        CustomTextField(components: $viewModel.creditCard)
+                            .onChange(of: viewModel.creditCard.value) { newValue in
+                                someText = viewModel.hideCharacters(stringToChange: viewModel.creditCard.value, offset: 4, simbol: "*")
+                            }
+                        Text(someText)
 
-                        HStack {
-                            CustomTextField(titleText: "Valid until",
-                                            placeholder: "Month / Year",
-                                            value: $creditCard.expirationDate)
+                        HStack(spacing: 16.0) {
+                            CustomTextField(components: $viewModel.expirationDate)
 
-                            CustomTextField(titleText: "CVV",
-                                            placeholder: "***",
-                                            value: $creditCard.cvv)
+                            CustomTextField(components: $viewModel.cvv)
+                                .onChange(of: viewModel.cvv.value) { _ in
+                                    if viewModel.cvv.value.count == 4 {
+                                        viewModel.cvv.value = String(viewModel.cvv.value.dropLast())
+                                    }
+
+//                                    someText = viewModel.hideCharacters(stringToChange: viewModel.cvv.value, simbol: "*")
+                                }
                         }
-
-                        CustomTextField(titleText: "Card holder",
-                                        placeholder: "Your name and surname",
-                                        value: $creditCard.cardHolderName)
+                        
+                        CustomTextField(components: $viewModel.cardHolder)
                     }
 
-                    Toggle(isOn: $saveCard) {
+                    Toggle(isOn: $viewModel.saveCard) {
                         Text("Save card data for future payments")
                     }
 
@@ -87,31 +93,8 @@ struct PaymentFormView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct PaymentFormView_Previews: PreviewProvider {
     static var previews: some View {
         PaymentFormView()
-    }
-}
-
-struct PaymentOptionButton: View {
-    var title: String
-    @Binding var state: Bool
-
-    var body: some View {
-        Button {
-
-        } label: {
-            HStack {
-                Text(title)
-                    .font(.headline)
-                    .lineLimit(1)
-
-                Image(systemName: "checkmark.circle")
-                    .font(.title)
-            }
-            .fontWeight(.light)
-            .padding(4)
-        }
-        .buttonStyle(.borderedProminent)
     }
 }
