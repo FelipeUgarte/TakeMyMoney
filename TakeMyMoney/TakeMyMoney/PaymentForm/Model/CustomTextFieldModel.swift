@@ -10,9 +10,9 @@ import SwiftUI
 class CustomTextFieldModel: ObservableObject {
     var title: String
     var value: String
-    var unformatedValue: String
+    var isSecure: Bool
     var itemLength: Int?
-    let placeholder: String?
+    let placeholder: String
     var showError: Bool
     var errorMessage: String
     let keyboardType: UIKeyboardType
@@ -20,22 +20,22 @@ class CustomTextFieldModel: ObservableObject {
 
     init(title: String,
          value: String = "",
-         unformatedValue: String = "",
-         placeholder: String? = nil,
+         isSecure: Bool = false,
+         itemLength: Int? = nil,
+         placeholder: String,
          keyboardType: UIKeyboardType = .default,
          showError: Bool = false,
          errorMessage: String,
-         itemLength: Int? = nil,
          showImage: Bool = false
     ) {
         self.title = title
         self.value = value
-        self.unformatedValue = unformatedValue
+        self.isSecure = isSecure
+        self.itemLength = itemLength
         self.placeholder = placeholder
         self.keyboardType = keyboardType
         self.showError = showError
         self.errorMessage = errorMessage
-        self.itemLength = itemLength
         self.showImage = showImage
     }
 }

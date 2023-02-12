@@ -48,19 +48,26 @@ struct PaymentFormView: View {
                         Spacer()
                     }
 
+                    // MARK: - Credit Card
                     // TODO: Extract the credit card to a new view, it need to change to match the paiment option selected
                     VStack(spacing: 16.0) {
                         CustomTextField(
                             components: $viewModel.creditCard)
-                        .onChange(of: viewModel.creditCard.value) { _ in
-                            viewModel.formatCreditCard()
+                        .onChange(of: viewModel.creditCard.value) { newValue in
+//                            viewModel.formatCreditCard()
+                            if newValue.count > 16 {
+                                viewModel.creditCard.value = String(newValue.dropLast())
+                            }
+                            print(viewModel.creditCard.value)
                         }
-                        Text(viewModel.creditCard.unformatedValue)
+
 
                         HStack(spacing: 16.0) {
+                            // MARK: - Expiration Date
                             CustomTextField(
                                 components: $viewModel.expirationDate)
 
+                            // MARK: - CVV
                             CustomTextField(
                                 components: $viewModel.cvv)
                             .onChange(of: viewModel.cvv.value) { _ in
@@ -69,7 +76,8 @@ struct PaymentFormView: View {
                                 }
                             }
                         }
-                        
+
+                        // MARK: - Card Holder Name
                         CustomTextField(
                             components: $viewModel.cardHolder)
                     }

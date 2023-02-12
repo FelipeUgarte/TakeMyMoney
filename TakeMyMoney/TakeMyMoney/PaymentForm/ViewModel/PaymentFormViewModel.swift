@@ -12,6 +12,8 @@ class PaymentFormViewModel: ObservableObject {
     @Published var paymentData = PaymentModel()
     @Published var creditCard = CustomTextFieldModel(
         title: "Credit Card",
+        isSecure: true,
+        itemLength: 16,
         placeholder: "**** **** **** ****",
         errorMessage: "Invalid Credit Card",
         showImage: true)
@@ -31,43 +33,23 @@ class PaymentFormViewModel: ObservableObject {
     @Published var saveCard: Bool = false
 
     func formatCreditCard() {
-        let offset: Int = 4
-        let simbol: String = "*"
-        var stringState = FormatStringsStates.empty
-        
-
-        if let character = creditCard.value.last {
-            creditCard.unformatedValue += String(character)
-        } else {
-            creditCard.unformatedValue = ""
-        }
-
-
-        creditCard.value = hideCharacters(stringToFormat: creditCard.value, offset: offset, simbol: simbol)
+        creditCard.value = limitValueLenght(value: creditCard.value, valueLength: creditCard.itemLength)
+//        creditCard.value = stringWhiteSpacesFormatter()
     }
 
-    private func hideCharacters(stringToFormat: String, offset: Int = 0, simbol: String) -> String {
-        let text = stringToFormat
+    func limitValueLenght(value: String, valueLength: Int?) -> String {
+//        if value.removingWhitespaceAndNewlines().count > valueLength ?? 0 {
+//            return String(value.dropLast())
+//        }
 
-        if stringToFormat.count >= (offset + 1) {
-            let replacement = String(repeating: simbol, count: text.count - offset)
-            let range1: String.Index = text.index(text.startIndex, offsetBy: 0)
-            let range2: String.Index = text.index(text.endIndex, offsetBy: -1 * offset)
-            return text.replacingCharacters(in: range1..<range2, with: replacement)
-        } else {
-            return stringToFormat
+        if value.count > valueLength ?? 16 {
+            return String(value.dropLast())
         }
+        return value
     }
 
-    private func stringFormatterState(imput: String, previousImputTextCount: Int) -> StringFormatterState {
-        let maxStringCount: Int = 5
-
-        if imput.count == maxStringCount { return .full }
-        if imput.count > maxStringCount { return .exceeded }
-        if imput.count > previousImputTextCount { return .adding }
-        if imput.count < previousImputTextCount { return .extracting }
-
-        return .adding
+    private func stringWhiteSpacesFormatter() -> String {
+        return ""
     }
 }
 
