@@ -33,16 +33,13 @@ class PaymentFormViewModel: ObservableObject {
     @Published var saveCard: Bool = false
 
     func formatCreditCard() {
-        creditCard.value = limitValueLenght(value: creditCard.value, valueLength: creditCard.itemLength)
+        creditCard.value = limitValueLenght(value: creditCard.value, valueLength: 4)
+        print(creditCard.value)
 //        creditCard.value = stringWhiteSpacesFormatter()
     }
 
     func limitValueLenght(value: String, valueLength: Int?) -> String {
-//        if value.removingWhitespaceAndNewlines().count > valueLength ?? 0 {
-//            return String(value.dropLast())
-//        }
-
-        if value.count > valueLength ?? 16 {
+        if value.removingWhitespaceAndNewlines().count > valueLength ?? 0 {
             return String(value.dropLast())
         }
         return value

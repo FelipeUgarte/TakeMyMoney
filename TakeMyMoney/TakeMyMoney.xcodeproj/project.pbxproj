@@ -19,6 +19,7 @@
 		0C51A7D829730C8400B824EF /* TakeMyMoneyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C51A7D729730C8400B824EF /* TakeMyMoneyUITests.swift */; };
 		0C51A7DA29730C8400B824EF /* TakeMyMoneyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C51A7D929730C8400B824EF /* TakeMyMoneyUITestsLaunchTests.swift */; };
 		0C51A7E82975EEDA00B824EF /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C51A7E72975EEDA00B824EF /* PaymentModel.swift */; };
+		0C9C6CD7299953FC0031AD61 /* PublicExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6CD6299953FC0031AD61 /* PublicExtensions.swift */; };
 		0CEB65DC2981C385003A462C /* CreditCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEB65DB2981C385003A462C /* CreditCardModel.swift */; };
 		0CEB65E02981CBF7003A462C /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEB65DF2981CBF7003A462C /* CustomTextField.swift */; };
 		0CEB65E22981CE60003A462C /* PaymentFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEB65E12981CE60003A462C /* PaymentFormViewModel.swift */; };
@@ -58,6 +59,7 @@
 		0C51A7D729730C8400B824EF /* TakeMyMoneyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeMyMoneyUITests.swift; sourceTree = "<group>"; };
 		0C51A7D929730C8400B824EF /* TakeMyMoneyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeMyMoneyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0C51A7E72975EEDA00B824EF /* PaymentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
+		0C9C6CD6299953FC0031AD61 /* PublicExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicExtensions.swift; sourceTree = "<group>"; };
 		0CEB65DB2981C385003A462C /* CreditCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardModel.swift; sourceTree = "<group>"; };
 		0CEB65DF2981CBF7003A462C /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		0CEB65E12981CE60003A462C /* PaymentFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentFormViewModel.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				0C49F5DD29984B920062A3C7 /* Styles */,
+				0C9C6CD6299953FC0031AD61 /* PublicExtensions.swift */,
 			);
 			path = SharedComponents;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				0C51A7E82975EEDA00B824EF /* PaymentModel.swift in Sources */,
 				0C51A7BF29730C8300B824EF /* PaymentFormView.swift in Sources */,
 				0C373FE5298DA6D800D7D435 /* MainTitle.swift in Sources */,
+				0C9C6CD7299953FC0031AD61 /* PublicExtensions.swift in Sources */,
 				0CEB65DC2981C385003A462C /* CreditCardModel.swift in Sources */,
 				0C373FE3298DA67D00D7D435 /* CustomTextFieldModel.swift in Sources */,
 				0CEB65E22981CE60003A462C /* PaymentFormViewModel.swift in Sources */,

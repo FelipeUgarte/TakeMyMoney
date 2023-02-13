@@ -54,11 +54,7 @@ struct PaymentFormView: View {
                         CustomTextField(
                             components: $viewModel.creditCard)
                         .onChange(of: viewModel.creditCard.value) { newValue in
-//                            viewModel.formatCreditCard()
-                            if newValue.count > 16 {
-                                viewModel.creditCard.value = String(newValue.dropLast())
-                            }
-                            print(viewModel.creditCard.value)
+                            viewModel.formatCreditCard()
                         }
 
 
