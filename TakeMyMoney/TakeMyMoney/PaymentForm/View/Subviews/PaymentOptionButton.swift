@@ -18,27 +18,37 @@ struct PaymentOptionButton: View {
         } label: {
             HStack {
                 Text(title)
-                    .font(.headline)
+                    .font(.title)
                     .lineLimit(1)
                     .foregroundColor(state ? .white : .black)
-
+Spacer()
                 if state {
                     Image(systemName: "checkmark.circle")
                         .font(.title)
+                        .foregroundColor(.white)
+                        .background(Color.blue)
                 }
             }
-            .fontWeight(.light)
-            .padding(4)
+            .fontWeight(.bold)
+            .padding(.horizontal, 16)
         }
-        .buttonStyle(.borderedProminent)
+        .buttonStyle(ButtonStylePayment(isActive: state))
     }
 }
 
 struct PaymentOptionButton_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentOptionButton(
-            title: "title",
-            state: false
-        )
+        VStack {
+            PaymentOptionButton(
+                title: "title",
+                state: false
+            )
+
+            PaymentOptionButton(
+                title: "title",
+                state: true
+            )
+        }
+
     }
 }
