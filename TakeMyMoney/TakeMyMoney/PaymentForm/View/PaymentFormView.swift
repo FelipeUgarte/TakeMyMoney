@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PaymentFormView: View {
     @StateObject var viewModel = PaymentFormViewModel()
+//    var selectedPaymentMethods: PaymentMethods
+//    private let paymentMethods = [PaymentMethods.paypal, PaymentMethods.credit, PaymentMethods.wallet]
 
     var body: some View {
         NavigationStack {
@@ -33,15 +35,14 @@ struct PaymentFormView: View {
                                 .font(.caption)
                             ScrollView(.horizontal) {
                                 HStack {
-                                    PaymentOptionButton(
-                                        title: viewModel.paymentData.paymentMethod[0].title.rawValue,
-                                        state: $viewModel.paymentData.paymentMethod [0].state)
-                                    PaymentOptionButton(
-                                        title: viewModel.paymentData.paymentMethod[1].title.rawValue,
-                                        state: $viewModel.paymentData.paymentMethod[1].state)
-                                    PaymentOptionButton(
-                                        title: viewModel.paymentData.paymentMethod[2].title.rawValue,
-                                        state: $viewModel.paymentData.paymentMethod[2].state)
+                                    ForEach(viewModel.paymentData.paymentMethod.indices, id: \.self) { index in
+                                        PaymentOptionButton(
+                                            title: "\(viewModel.paymentData.paymentMethod[index].title)",
+                                            state: viewModel.binding(for: viewModel.paymentData.paymentMethod[index].title)
+                                        ) {
+
+                                        }
+                                    }
                                 }
                             }
                         }

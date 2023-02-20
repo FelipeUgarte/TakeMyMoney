@@ -7,15 +7,11 @@
 import Combine
 
 class PaymentModel: ObservableObject {
-    var totalPrice: Double = 0
-    var paymentMethod = [PaymentMethod(title: .paypal,
-                                       state: false),
-                         PaymentMethod(title: .credit,
-                                       state: false),
-                         PaymentMethod(title: .wallet,
-                                       state: false)]
-//    var paymentMethod = PaymentMethod(title: "Paypal", state: false)
-//    var creditCard: [CreditCard] = []
+    @Published var paymentMethod = [
+        PaymentMethod(title: .paypal, state: false),
+        PaymentMethod(title: .credit, state: false),
+        PaymentMethod(title: .wallet, state: false)
+    ]
 }
 
 enum PaymentOption: String, Hashable {
@@ -27,12 +23,4 @@ enum PaymentOption: String, Hashable {
 struct PaymentMethod {
     var title: PaymentOption
     var state: Bool
-}
-
-struct CreditCard {
-    var number: String
-    var expiryMonth: String
-    var cvv: Int?
-    var carHolder: String
-    var saveCard: Bool
 }

@@ -5,11 +5,14 @@
 //  Created by Felipe Ugarte on 25-01-23.
 //
 
-import Foundation
+import SwiftUI
 
 class PaymentFormViewModel: ObservableObject {
+
+    @StateObject var paymentData = PaymentModel()
+
     @Published var shoppingCart = ShoppingCartModel()
-    @Published var paymentData = PaymentModel()
+//    @Published var paymentData = PaymentModel()
     @Published var creditCard = CustomTextFieldModel(
         title: "Credit Card",
         isSecure: true,
@@ -31,6 +34,35 @@ class PaymentFormViewModel: ObservableObject {
         errorMessage: "Invalid Card Holder")
 
     @Published var saveCard: Bool = false
+
+    /// Create a dynamic Binding to the model for all the button options.
+    ///
+    /// This method allows us to dynamically generate bindings for each button option based on the payment model data, enabling us to create a list of reusable button options and link each one to its corresponding state in the model.
+    func binding(for opcion: PaymentOption) -> Binding<Bool> {
+        return Binding(
+            get: {
+                self.paymentData.paymentMethod.first(where: { $0.title == opcion })?.state ?? false
+            },
+            set: { newValue in
+                if let index = self.paymentData.paymentMethod.firstIndex(where: { $0.title == opcion }) {
+                    self.paymentData.paymentMethod[index].state = newValue
+                }
+            }
+        )
+    }
+
+//    func setTheActiveButton(index: IndexSet) {
+//        for method in paymentData.paymentMethod {
+//            method.state = false
+//        }
+//        self.paymentData.paymentMethod[index].state = true
+//    }
+
+    func selectPaymentOption(_ paymentOptionIndex: IndexSet) {
+        for index in paymentData.paymentMethod.indices {
+            paymentData.paymentMethod[index].state = paymentData.paymentMethod[index].title == paymentData.paymentMethod[paymentOptionIndex.hashValue].title
+        }
+    }
 
     func formatCreditCard() {
         creditCard.value = limitValueLenght(value: creditCard.value, valueLength: 4)

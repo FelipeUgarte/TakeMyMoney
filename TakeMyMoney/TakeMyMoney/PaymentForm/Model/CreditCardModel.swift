@@ -6,11 +6,11 @@
 //
 
 import Foundation
-//
-//class CreditCardModel: ObservableObject {
-//    var numberValue: String = ""
-//    var numberShowError = false
-//    var expirationDate: String = ""
-//    var cvv = ""
-//    var cardHolderName = ""
-//}
+
+struct CreditCardModel {
+    var number: String
+    var expiryMonth: String
+    var cvv: Int?
+    var carHolder: String
+    var saveCard: Bool
+}

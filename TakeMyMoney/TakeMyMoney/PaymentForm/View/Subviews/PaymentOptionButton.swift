@@ -10,15 +10,17 @@ import SwiftUI
 struct PaymentOptionButton: View {
     var title: String
     @Binding var state: Bool
+    var actions: (() -> Void)? = nil
 
     var body: some View {
         Button {
-
+            actions?()
         } label: {
             HStack {
                 Text(title)
                     .font(.headline)
                     .lineLimit(1)
+                    .foregroundColor(state ? .white : .black)
 
                 Image(systemName: "checkmark.circle")
                     .font(.title)
