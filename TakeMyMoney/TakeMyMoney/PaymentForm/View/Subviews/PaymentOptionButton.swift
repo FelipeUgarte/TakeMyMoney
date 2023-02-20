@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PaymentOptionButton: View {
     var title: String
-    @Binding var state: Bool
+    var state: Bool
     var actions: (() -> Void)? = nil
 
     var body: some View {
@@ -22,8 +22,10 @@ struct PaymentOptionButton: View {
                     .lineLimit(1)
                     .foregroundColor(state ? .white : .black)
 
-                Image(systemName: "checkmark.circle")
-                    .font(.title)
+                if state {
+                    Image(systemName: "checkmark.circle")
+                        .font(.title)
+                }
             }
             .fontWeight(.light)
             .padding(4)
@@ -36,7 +38,7 @@ struct PaymentOptionButton_Previews: PreviewProvider {
     static var previews: some View {
         PaymentOptionButton(
             title: "title",
-            state: .constant(false)
+            state: false
         )
     }
 }

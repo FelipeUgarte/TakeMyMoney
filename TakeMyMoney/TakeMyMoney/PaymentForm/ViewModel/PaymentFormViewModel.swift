@@ -6,13 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 class PaymentFormViewModel: ObservableObject {
 
-    @StateObject var paymentData = PaymentModel()
-
+    @Published var paymentData = PaymentModel()
     @Published var shoppingCart = ShoppingCartModel()
-//    @Published var paymentData = PaymentModel()
     @Published var creditCard = CustomTextFieldModel(
         title: "Credit Card",
         isSecure: true,
@@ -51,16 +50,9 @@ class PaymentFormViewModel: ObservableObject {
         )
     }
 
-//    func setTheActiveButton(index: IndexSet) {
-//        for method in paymentData.paymentMethod {
-//            method.state = false
-//        }
-//        self.paymentData.paymentMethod[index].state = true
-//    }
-
-    func selectPaymentOption(_ paymentOptionIndex: IndexSet) {
+    func selectPaymentOption(_ paymentOption: PaymentOption) {
         for index in paymentData.paymentMethod.indices {
-            paymentData.paymentMethod[index].state = paymentData.paymentMethod[index].title == paymentData.paymentMethod[paymentOptionIndex.hashValue].title
+            paymentData.paymentMethod[index].state = paymentData.paymentMethod[index].title == paymentOption
         }
     }
 
