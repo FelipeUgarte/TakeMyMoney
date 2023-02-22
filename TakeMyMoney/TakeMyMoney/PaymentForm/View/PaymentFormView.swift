@@ -41,7 +41,6 @@ struct PaymentFormView: View {
                                             state: paymentMethod.title == selectedPaymentMethod
                                         ) {
                                             self.selectedPaymentMethod = paymentMethod.title
-                                            viewModel.selectPaymentOption(selectedPaymentMethod)
                                         }
                                     }
                                 }

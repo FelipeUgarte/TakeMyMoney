@@ -8,9 +8,9 @@ import Combine
 
 class PaymentModel: ObservableObject {
     @Published var paymentMethod = [
-        PaymentMethod(title: .paypal, state: false),
-        PaymentMethod(title: .credit, state: false),
-        PaymentMethod(title: .wallet, state: false)
+        PaymentMethod(title: .paypal),
+        PaymentMethod(title: .credit),
+        PaymentMethod(title: .wallet)
     ]
 }
 
@@ -22,5 +22,4 @@ enum PaymentOption: String, Hashable {
 
 struct PaymentMethod {
     var title: PaymentOption
-    var state: Bool
 }

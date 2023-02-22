@@ -20,7 +20,7 @@ struct PaymentOptionButton: View {
                 Text(title)
                     .font(.title)
                     .lineLimit(1)
-                    .foregroundColor(state ? .white : .black)
+                    .foregroundColor(.white)
 Spacer()
                 if state {
                     Image(systemName: "checkmark.circle")
@@ -45,7 +45,7 @@ struct PaymentOptionButton_Previews: PreviewProvider {
             )
 
             PaymentOptionButton(
-                title: "title",
+                title: "Wallet",
                 state: true
             )
         }
