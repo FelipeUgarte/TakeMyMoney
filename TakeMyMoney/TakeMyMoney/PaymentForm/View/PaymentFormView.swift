@@ -53,31 +53,40 @@ struct PaymentFormView: View {
                     // MARK: - Credit Card
                     // TODO: Extract the credit card to a new view, it need to change to match the paiment option selected
                     VStack(spacing: 16.0) {
-                        CustomTextField(
-                            components: $viewModel.creditCard)
-                        .onChange(of: viewModel.creditCard.value) { newValue in
-                            viewModel.formatCreditCard()
+                        CustomTextField(imputValue: $viewModel.creditCardState.imputValue,
+                                        title: viewModel.creditCardTextFieldContent.title,
+                                        placeholder: viewModel.creditCardTextFieldContent.placeholder,
+                                        isSecure: true,
+                                        keyboardType: .numberPad)
+                        .onChange(of: viewModel.creditCardState.imputValue) { newValue in
+                            (viewModel.creditCardState.imputValue, viewModel.creditCardState.showError) = viewModel.creditCardOnChange(newValue)
                         }
 
 
                         HStack(spacing: 16.0) {
                             // MARK: - Expiration Date
-                            CustomTextField(
-                                components: $viewModel.expirationDate)
+                            CustomTextField(imputValue: $viewModel.expirationDateState.imputValue,
+                                            title: viewModel.expirationDateTextFieldContent.title,
+                                            placeholder: viewModel.expirationDateTextFieldContent.placeholder,
+                                            keyboardType: .numberPad)
+                            .onChange(of: viewModel.expirationDateState.imputValue) { newValue in
+                                (viewModel.expirationDateState.imputValue, viewModel.expirationDateState.showError) = viewModel.expirationDateOnChange(newValue)
+                            }
 
                             // MARK: - CVV
-                            CustomTextField(
-                                components: $viewModel.cvv)
-                            .onChange(of: viewModel.cvv.value) { _ in
-                                if viewModel.cvv.value.count == 4 {
-                                    viewModel.cvv.value = String(viewModel.cvv.value.dropLast())
-                                }
+                            CustomTextField(imputValue: $viewModel.cvvState.imputValue,
+                                            title: viewModel.cvvTextFieldContent.title,
+                                            placeholder: viewModel.cvvTextFieldContent.placeholder,
+                                            keyboardType: .numberPad)
+                            .onChange(of: viewModel.cvvState.imputValue) { newValue in
+                                viewModel.cvvState.imputValue = viewModel.cvvOnChange(newValue)
                             }
                         }
 
                         // MARK: - Card Holder Name
-                        CustomTextField(
-                            components: $viewModel.cardHolder)
+                        CustomTextField(imputValue: $viewModel.cardHolderState.imputValue,
+                                        title: viewModel.cardHolderTextFieldContent.title,
+                                        placeholder: viewModel.cardHolderTextFieldContent.placeholder)
                     }
 
                     Toggle(isOn: $viewModel.saveCard) {

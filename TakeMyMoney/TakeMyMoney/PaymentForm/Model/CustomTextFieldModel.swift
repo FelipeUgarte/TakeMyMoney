@@ -7,35 +7,17 @@
 
 import SwiftUI
 
-class CustomTextFieldModel: ObservableObject {
+struct CustomTextFieldContentModel {
     var title: String
-    var value: String
-    var isSecure: Bool
+    var isSecure: Bool = false
     var itemLength: Int?
     let placeholder: String
-    var showError: Bool
-    var errorMessage: String
-    let keyboardType: UIKeyboardType
-    var showImage: Bool
+    var errorMessage: String = ""
+    let keyboardType: UIKeyboardType = .default
+    var showImage: Bool = false
+}
 
-    init(title: String,
-         value: String = "",
-         isSecure: Bool = false,
-         itemLength: Int? = nil,
-         placeholder: String,
-         keyboardType: UIKeyboardType = .default,
-         showError: Bool = false,
-         errorMessage: String,
-         showImage: Bool = false
-    ) {
-        self.title = title
-        self.value = value
-        self.isSecure = isSecure
-        self.itemLength = itemLength
-        self.placeholder = placeholder
-        self.keyboardType = keyboardType
-        self.showError = showError
-        self.errorMessage = errorMessage
-        self.showImage = showImage
-    }
+struct CustomTextFieldStateModel {
+    var imputValue: String = ""
+    var showError: Bool = false
 }

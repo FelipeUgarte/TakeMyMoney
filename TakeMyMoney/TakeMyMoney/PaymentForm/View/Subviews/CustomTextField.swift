@@ -1,52 +1,48 @@
 //
-//  CustomTextField.swift
+//  CustomTextFieldV2.swift
 //  TakeMyMoney
 //
-//  Created by Felipe Ugarte on 25-01-23.
+//  Created by Felipe Ugarte on 22-02-23.
 //
 
 import SwiftUI
 
 struct CustomTextField: View {
-    @Binding var components: CustomTextFieldModel
+    @Binding var imputValue: String
+
+    var title: String
+    var placeholder: String
+    var errorMessage: String = ""
+    var showError: Bool = false
+    var showImage: Bool = false
+    var isSecure: Bool = false
+    var keyboardType: UIKeyboardType = .default
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-                MainTitle(titleText: $components.title, showError: $components.showError)
+            MainTitle(titleText: title, showError: showError)
 
             ZStack {
                 HStack(alignment: .center) {
-                    if components.showImage {
+                    if showImage {
                         Image("VISA")
                             .padding(.leading, 16)
                             .padding(.trailing, -8)
                     }
 
-                    if components.isSecure {
-                        SecureField(components.placeholder, text: $components.value)
+                    if isSecure {
+                        SecureField(placeholder, text: $imputValue)
                             .textFieldStyle(TextFieldStylesNormal())
                             .frame(height: 48)
                             .multilineTextAlignment(.leading)
-                            .keyboardType(components.keyboardType)
-                            .onChange(of: components.value, perform: { _ in
-                                guard let itemLength = components.itemLength else { return }
-                                if components.value.count > itemLength {
-                                    components.value = String(components.value.dropLast())
-                                }
-                            })
+                            .keyboardType(keyboardType)
 
                     } else {
-                        TextField(components.placeholder, text: $components.value)
+                        TextField(placeholder, text: $imputValue)
                             .textFieldStyle(TextFieldStylesNormal())
                             .frame(height: 48)
                             .multilineTextAlignment(.leading)
-                            .keyboardType(components.keyboardType)
-                            .onChange(of: components.value, perform: { _ in
-                                guard let itemLength = components.itemLength else { return }
-                                if components.value.count > itemLength {
-                                    components.value = String(components.value.dropLast())
-                                }
-                            })
+                            .keyboardType(keyboardType)
                     }
                 }
                 .background(
@@ -55,47 +51,34 @@ struct CustomTextField: View {
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(components.showError ? .red : .gray,
+                        .stroke(showError ? .red : .gray,
                                 lineWidth: 1)
-                        .shadow(color: components.showError ? .red : .clear,
-                                radius: 3,
-                                x: 0
-                                , y: 0)
+                        .shadow(color: showError ? .red : .clear,
+                                radius: 3, x: 0, y: 0)
                 )
             }
-
-            if components.showError {
-                Text(components.errorMessage)
+            if showError {
+                Text(errorMessage)
                     .textStylesErrorTitle()
             }
         }
     }
 }
 
-struct CustomTextField_Previews: PreviewProvider {
+struct CustomTextFieldV2_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             CustomTextField(
-                components: .constant(CustomTextFieldModel(
-                    title: "Title",
-                    placeholder: "Some Text",
-                    errorMessage: "Error",
-                    showImage: false)))
+                imputValue: .constant(""),
+                title: "Title",
+                placeholder: "Some Text",
+                errorMessage: "Some Error Text",
+                showError: true)
 
             CustomTextField(
-                components: .constant(CustomTextFieldModel(
-                    title: "Title",
-                    placeholder: "Some Text",
-                    errorMessage: "Error",
-                    showImage: true)))
-
-            CustomTextField(
-                components: .constant(CustomTextFieldModel(
-                    title: "Title",
-                    isSecure: true,
-                    placeholder: "Some Text",
-                    errorMessage: "Error",
-                    showImage: true)))
+                imputValue: .constant(""),
+                title: "Title",
+                placeholder: "Some Text")
         }
     }
 }
