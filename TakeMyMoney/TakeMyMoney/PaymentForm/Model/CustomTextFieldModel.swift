@@ -15,9 +15,7 @@ struct CustomTextFieldContentModel {
     var errorMessage: String = ""
     let keyboardType: UIKeyboardType = .default
     var showImage: Bool = false
-}
-
-struct CustomTextFieldStateModel {
-    var imputValue: String = ""
+    
+    var inputValue: String = ""
     var showError: Bool = false
 }

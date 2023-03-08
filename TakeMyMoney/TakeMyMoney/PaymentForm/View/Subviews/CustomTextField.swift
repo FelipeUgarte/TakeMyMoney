@@ -29,7 +29,6 @@ struct CustomTextField: View {
                             .padding(.leading, 16)
                             .padding(.trailing, -8)
                     }
-
                     if isSecure {
                         SecureField(placeholder, text: $imputValue)
                             .textFieldStyle(TextFieldStylesNormal())

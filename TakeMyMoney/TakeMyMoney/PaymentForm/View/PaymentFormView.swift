@@ -27,7 +27,6 @@ struct PaymentFormView: View {
                         }
                         Spacer()
                     }
-
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Payment Method")
@@ -45,56 +44,47 @@ struct PaymentFormView: View {
                                     }
                                 }
                             }
-
                         }
                         Spacer()
                     }
-
                     // MARK: - Credit Card
                     // TODO: Extract the credit card to a new view, it need to change to match the paiment option selected
                     VStack(spacing: 16.0) {
-                        CustomTextField(imputValue: $viewModel.creditCardState.imputValue,
-                                        title: viewModel.creditCardTextFieldContent.title,
-                                        placeholder: viewModel.creditCardTextFieldContent.placeholder,
+                        CustomTextField(imputValue: $viewModel.creditCard.inputValue,
+                                        title: viewModel.creditCard.title,
+                                        placeholder: viewModel.creditCard.placeholder,
                                         isSecure: true,
                                         keyboardType: .numberPad)
-                        .onChange(of: viewModel.creditCardState.imputValue) { newValue in
-                            (viewModel.creditCardState.imputValue, viewModel.creditCardState.showError) = viewModel.creditCardOnChange(newValue)
+                        .onChange(of: viewModel.creditCard.inputValue) { newValue in
+                            (viewModel.creditCard.inputValue, viewModel.creditCard.showError) = viewModel.creditCardOnChange(newValue)
                         }
-
-
                         HStack(spacing: 16.0) {
                             // MARK: - Expiration Date
-                            CustomTextField(imputValue: $viewModel.expirationDateState.imputValue,
-                                            title: viewModel.expirationDateTextFieldContent.title,
-                                            placeholder: viewModel.expirationDateTextFieldContent.placeholder,
+                            CustomTextField(imputValue: $viewModel.expirationDate.inputValue,
+                                            title: viewModel.expirationDate.title,
+                                            placeholder: viewModel.expirationDate.placeholder,
                                             keyboardType: .numberPad)
-                            .onChange(of: viewModel.expirationDateState.imputValue) { newValue in
-                                (viewModel.expirationDateState.imputValue, viewModel.expirationDateState.showError) = viewModel.expirationDateOnChange(newValue)
+                            .onChange(of: viewModel.expirationDate.inputValue) { newValue in
+                                (viewModel.expirationDate.inputValue, viewModel.expirationDate.showError) = viewModel.expirationDateOnChange(newValue)
                             }
-
                             // MARK: - CVV
-                            CustomTextField(imputValue: $viewModel.cvvState.imputValue,
-                                            title: viewModel.cvvTextFieldContent.title,
-                                            placeholder: viewModel.cvvTextFieldContent.placeholder,
+                            CustomTextField(imputValue: $viewModel.cvv.inputValue,
+                                            title: viewModel.cvv.title,
+                                            placeholder: viewModel.cvv.placeholder,
                                             keyboardType: .numberPad)
-                            .onChange(of: viewModel.cvvState.imputValue) { newValue in
-                                viewModel.cvvState.imputValue = viewModel.cvvOnChange(newValue)
+                            .onChange(of: viewModel.cvv.inputValue) { newValue in
+                                viewModel.cvv.inputValue = viewModel.cvvOnChange(newValue)
                             }
                         }
-
                         // MARK: - Card Holder Name
-                        CustomTextField(imputValue: $viewModel.cardHolderState.imputValue,
-                                        title: viewModel.cardHolderTextFieldContent.title,
-                                        placeholder: viewModel.cardHolderTextFieldContent.placeholder)
+                        CustomTextField(imputValue: $viewModel.cardHolder.inputValue,
+                                        title: viewModel.cardHolder.title,
+                                        placeholder: viewModel.cardHolder.placeholder)
                     }
-
                     Toggle(isOn: $viewModel.saveCard) {
                         Text("Save card data for future payments")
                     }
-
                     Spacer()
-
                     Button {
 
                     } label: {

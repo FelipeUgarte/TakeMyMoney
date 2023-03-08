@@ -13,8 +13,7 @@ class PaymentFormViewModel: ObservableObject {
     @Published var paymentData = PaymentModel()
     @Published var saveCard: Bool = false
 
-    @Published var creditCardState = CustomTextFieldStateModel()
-    var creditCardTextFieldContent = CustomTextFieldContentModel(
+    @Published var creditCard = CustomTextFieldContentModel(
         title: "Credit Card",
         isSecure: true,
         itemLength: 16,
@@ -22,20 +21,18 @@ class PaymentFormViewModel: ObservableObject {
         errorMessage: "Invalid Credit Card",
         showImage: true)
 
-    @Published var expirationDateState = CustomTextFieldStateModel()
-    var expirationDateTextFieldContent = CustomTextFieldContentModel(
+    @Published var expirationDate = CustomTextFieldContentModel(
         title: "Expiration Date",
         placeholder: "MM/DD",
         errorMessage: "Invalid Date")
     private var previousDateTextCount: Int = 0
 
-    @Published var cvvState = CustomTextFieldStateModel()
-    var cvvTextFieldContent = CustomTextFieldContentModel(
+    @Published var cvv = CustomTextFieldContentModel(
         title: "CVV",
+        itemLength: 3,
         placeholder: "***")
 
-    @Published var cardHolderState = CustomTextFieldStateModel()
-    var cardHolderTextFieldContent = CustomTextFieldContentModel(
+    @Published var cardHolder = CustomTextFieldContentModel(
         title: "Card Holder",
         placeholder: "Your name and suremane",
         errorMessage: "Invalid Card Holder")
@@ -48,24 +45,20 @@ class PaymentFormViewModel: ObservableObject {
 
     func expirationDateOnChange(_ value: String) -> (String, Bool) {
         let formattedDate = dateFormat(value)
-        print(formattedDate)
         return (formattedDate, self.checkMinDate(value))
     }
 
     func cvvOnChange(_ value: String) -> String {
-        if value.count == 4 {
-            return String(value.dropLast())
-        }
-        return value
+        return limitValueLenght(value: value, valueLength: self.cvv.itemLength)
     }
 
     // MARK: - Validations
     func formatCreditCard(_ value: String) -> String {
-        return limitValueLenght(value: value, valueLength: 4)
+        return limitValueLenght(value: value, valueLength: self.creditCard.itemLength)
     }
 
     func checkMinDate(_ date: String) -> Bool {
-        guard !expirationDateState.showError else { return false }
+        guard !expirationDate.showError else { return false }
         return !validateMinDate(date)
     }
 
@@ -124,17 +117,17 @@ class PaymentFormViewModel: ObservableObject {
                         newDateString = "0" + newDateString
                     }
                 }
-                self.expirationDateState.imputValue = newDateString
+                self.expirationDate.inputValue = newDateString
             case .extracting:
                 if newDateString.count == 2 {
                     newDateString = String(newDateString.dropLast())
                 }
-                self.expirationDateState.imputValue = newDateString
+                self.expirationDate.inputValue = newDateString
             case .full:
                 break
             case .exceeded:
                 newDateString = String(newDateString.dropLast())
-                self.expirationDateState.imputValue = newDateString
+                self.expirationDate.inputValue = newDateString
         }
         self.previousDateTextCount = newDateString.count
         return newDateString
