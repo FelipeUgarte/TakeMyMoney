@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PaymentFormView: View {
     @StateObject var viewModel = PaymentFormViewModel()
-    @State var selectedPaymentMethod: PaymentOption = .paypal
+    @State var selectedPaymentMethod: PaymentOption = .credit
 
     var body: some View {
         NavigationStack {
@@ -48,41 +48,8 @@ struct PaymentFormView: View {
                         Spacer()
                     }
                     // MARK: - Credit Card
-                    // TODO: Extract the credit card to a new view, it need to change to match the paiment option selected
-                    VStack(spacing: 16.0) {
-                        CustomTextField(imputValue: $viewModel.creditCard.inputValue,
-                                        title: viewModel.creditCard.title,
-                                        placeholder: viewModel.creditCard.placeholder,
-                                        isSecure: true,
-                                        keyboardType: .numberPad)
-                        .onChange(of: viewModel.creditCard.inputValue) { newValue in
-                            (viewModel.creditCard.inputValue, viewModel.creditCard.showError) = viewModel.creditCardOnChange(newValue)
-                        }
-                        HStack(spacing: 16.0) {
-                            // MARK: - Expiration Date
-                            CustomTextField(imputValue: $viewModel.expirationDate.inputValue,
-                                            title: viewModel.expirationDate.title,
-                                            placeholder: viewModel.expirationDate.placeholder,
-                                            keyboardType: .numberPad)
-                            .onChange(of: viewModel.expirationDate.inputValue) { newValue in
-                                (viewModel.expirationDate.inputValue, viewModel.expirationDate.showError) = viewModel.expirationDateOnChange(newValue)
-                            }
-                            // MARK: - CVV
-                            CustomTextField(imputValue: $viewModel.cvv.inputValue,
-                                            title: viewModel.cvv.title,
-                                            placeholder: viewModel.cvv.placeholder,
-                                            keyboardType: .numberPad)
-                            .onChange(of: viewModel.cvv.inputValue) { newValue in
-                                viewModel.cvv.inputValue = viewModel.cvvOnChange(newValue)
-                            }
-                        }
-                        // MARK: - Card Holder Name
-                        CustomTextField(imputValue: $viewModel.cardHolder.inputValue,
-                                        title: viewModel.cardHolder.title,
-                                        placeholder: viewModel.cardHolder.placeholder)
-                    }
-                    Toggle(isOn: $viewModel.saveCard) {
-                        Text("Save card data for future payments")
+                    if selectedPaymentMethod == .credit {
+                        CreditCardView(viewModel: viewModel)
                     }
                     Spacer()
                     Button {
@@ -102,5 +69,55 @@ struct PaymentFormView: View {
 struct PaymentFormView_Previews: PreviewProvider {
     static var previews: some View {
         PaymentFormView()
+    }
+}
+
+struct CreditCardView: View {
+    @ObservedObject var viewModel:PaymentFormViewModel
+
+    var body: some View {
+        VStack(spacing: 16.0) {
+            CustomTextField(imputValue: $viewModel.creditCard.inputValue,
+                            title: viewModel.creditCard.title,
+                            placeholder: viewModel.creditCard.placeholder,
+                            isSecure: true,
+                            keyboardType: .numberPad)
+            .onChange(of: viewModel.creditCard.inputValue) { newValue in
+                (viewModel.creditCard.inputValue, viewModel.creditCard.showError) = viewModel.creditCardOnChange(newValue)
+            }
+            HStack(spacing: 16.0) {
+                // MARK: - Expiration Date
+                CustomTextField(imputValue: $viewModel.expirationDate.inputValue,
+                                title: viewModel.expirationDate.title,
+                                placeholder: viewModel.expirationDate.placeholder,
+                                keyboardType: .numberPad)
+                .onChange(of: viewModel.expirationDate.inputValue) { newValue in
+                    (viewModel.expirationDate.inputValue, viewModel.expirationDate.showError) = viewModel.expirationDateOnChange(newValue)
+                }
+                // MARK: - CVV
+                CustomTextField(imputValue: $viewModel.cvv.inputValue,
+                                title: viewModel.cvv.title,
+                                placeholder: viewModel.cvv.placeholder,
+                                keyboardType: .numberPad)
+                .onChange(of: viewModel.cvv.inputValue) { newValue in
+                    if let last = newValue.last, !last.isNumber {
+                        viewModel.cvv.inputValue = String(newValue.dropLast())
+                    }
+                    viewModel.cvv.inputValue = viewModel.cvvOnChange(viewModel.cvv.inputValue)
+                }
+            }
+            // MARK: - Card Holder Name
+            CustomTextField(imputValue: $viewModel.cardHolder.inputValue,
+                            title: viewModel.cardHolder.title,
+                            placeholder: viewModel.cardHolder.placeholder)
+            .onChange(of: viewModel.cardHolder.inputValue) { newValue in
+                if let last = newValue.last, last.isNumber {
+                    viewModel.cardHolder.inputValue = String(newValue.dropLast())
+                }
+            }
+            Toggle(isOn: $viewModel.saveCard) {
+                Text("Save card data for future payments")
+            }
+        }
     }
 }
