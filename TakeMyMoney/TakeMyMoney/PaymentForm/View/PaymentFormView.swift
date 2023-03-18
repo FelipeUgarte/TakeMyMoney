@@ -26,7 +26,7 @@ struct PaymentFormView: View {
                         }
                         Spacer()
                     }
-                    
+
                     HStack {
                         VStack(alignment: .leading) {
                             Text("Payment Method")
@@ -53,21 +53,20 @@ struct PaymentFormView: View {
                         case .credit:
                             CreditCardView(viewModel: viewModel)
                         case .paypal:
-                            EmptyView()
+                            PayPalView()
                         case .wallet:
                             EmptyView()
                     }
-                    Spacer()
-
-                    Button {
-                        viewModel.purchaseButtonAction()
-                    } label: {
-                        Text("Proceed to confirm")
-                            .padding()
-                    }.buttonStyle(.borderedProminent)
                 }
                 .padding()
             }
+
+            Button {
+                viewModel.purchaseButtonAction()
+            } label: {
+                Text("Proceed to confirm")
+                    .padding()
+            }.buttonStyle(.borderedProminent)
             .navigationTitle("Payment data")
         }
     }

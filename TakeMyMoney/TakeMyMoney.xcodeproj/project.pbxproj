@@ -10,6 +10,7 @@
 		0C038AB829C64AB30068ABD2 /* ExpirationDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C038AB729C64AB30068ABD2 /* ExpirationDateModel.swift */; };
 		0C038ABA29C65A1F0068ABD2 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C038AB929C65A1F0068ABD2 /* DatePickerView.swift */; };
 		0C038ABC29C664960068ABD2 /* CreditCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C038ABB29C664960068ABD2 /* CreditCardView.swift */; };
+		0C1B834E29C6667100409338 /* PayPalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1B834D29C6667100409338 /* PayPalView.swift */; };
 		0C373FE1298DA59B00D7D435 /* ShoppingCartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C373FE0298DA59B00D7D435 /* ShoppingCartModel.swift */; };
 		0C373FE3298DA67D00D7D435 /* CustomTextFieldModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C373FE2298DA67D00D7D435 /* CustomTextFieldModel.swift */; };
 		0C373FE5298DA6D800D7D435 /* MainTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C373FE4298DA6D700D7D435 /* MainTitle.swift */; };
@@ -51,6 +52,7 @@
 		0C038AB729C64AB30068ABD2 /* ExpirationDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateModel.swift; sourceTree = "<group>"; };
 		0C038AB929C65A1F0068ABD2 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		0C038ABB29C664960068ABD2 /* CreditCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardView.swift; sourceTree = "<group>"; };
+		0C1B834D29C6667100409338 /* PayPalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalView.swift; sourceTree = "<group>"; };
 		0C373FE0298DA59B00D7D435 /* ShoppingCartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartModel.swift; sourceTree = "<group>"; };
 		0C373FE2298DA67D00D7D435 /* CustomTextFieldModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldModel.swift; sourceTree = "<group>"; };
 		0C373FE4298DA6D700D7D435 /* MainTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTitle.swift; sourceTree = "<group>"; };
@@ -116,7 +118,6 @@
 				0C7E7EAC29A6AD8E00ECDE43 /* CustomTextField.swift */,
 				0CEB65E32981CF65003A462C /* PaymentOptionButton.swift */,
 				0C038AB929C65A1F0068ABD2 /* DatePickerView.swift */,
-				0C038ABB29C664960068ABD2 /* CreditCardView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -212,7 +213,9 @@
 			isa = PBXGroup;
 			children = (
 				0C51A7BE29730C8300B824EF /* PaymentFormView.swift */,
+				0C038ABB29C664960068ABD2 /* CreditCardView.swift */,
 				0C49F5DB29984B500062A3C7 /* Subviews */,
+				0C1B834D29C6667100409338 /* PayPalView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				0CEB65E22981CE60003A462C /* PaymentFormViewModel.swift in Sources */,
 				0C373FE1298DA59B00D7D435 /* ShoppingCartModel.swift in Sources */,
 				0C51A7BD29730C8300B824EF /* TakeMyMoneyApp.swift in Sources */,
+				0C1B834E29C6667100409338 /* PayPalView.swift in Sources */,
 				0C373FE7298DA78900D7D435 /* TextFilesStyles.swift in Sources */,
 				0C038ABC29C664960068ABD2 /* CreditCardView.swift in Sources */,
 			);
