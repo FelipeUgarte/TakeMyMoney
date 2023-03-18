@@ -77,35 +77,40 @@ struct CreditCardView: View {
 
     var body: some View {
         VStack(spacing: 16.0) {
+            // MARK: - Credit Card Number
             CustomTextField(imputValue: $viewModel.creditCard.inputValue,
                             title: viewModel.creditCard.title,
                             placeholder: viewModel.creditCard.placeholder,
+                            errorMessage: viewModel.creditCard.errorMessage,
+                            showError: viewModel.creditCard.showError,
                             isSecure: true,
                             keyboardType: .numberPad)
             .onChange(of: viewModel.creditCard.inputValue) { newValue in
-                (viewModel.creditCard.inputValue, viewModel.creditCard.showError) = viewModel.creditCardOnChange(newValue)
+                let itemLength = viewModel.creditCard.itemLength
+                (viewModel.creditCard.inputValue, viewModel.creditCard.showError) = viewModel.creditCardOnChange(value: newValue, minLength: itemLength ?? 16)
             }
-            HStack(spacing: 16.0) {
+
+            HStack(alignment: .top, spacing: 16.0) {
+
                 // MARK: - Expiration Date
-                CustomTextField(imputValue: $viewModel.expirationDate.inputValue,
-                                title: viewModel.expirationDate.title,
-                                placeholder: viewModel.expirationDate.placeholder,
-                                keyboardType: .numberPad)
-                .onChange(of: viewModel.expirationDate.inputValue) { newValue in
-                    (viewModel.expirationDate.inputValue, viewModel.expirationDate.showError) = viewModel.expirationDateOnChange(newValue)
-                }
+                DatePickerView(viewModel: viewModel)
+
                 // MARK: - CVV
                 CustomTextField(imputValue: $viewModel.cvv.inputValue,
                                 title: viewModel.cvv.title,
                                 placeholder: viewModel.cvv.placeholder,
+                                errorMessage: viewModel.cvv.errorMessage,
+                                showError: viewModel.cvv.showError,
                                 keyboardType: .numberPad)
                 .onChange(of: viewModel.cvv.inputValue) { newValue in
+                    let itemLength = viewModel.cvv.itemLength
                     if let last = newValue.last, !last.isNumber {
                         viewModel.cvv.inputValue = String(newValue.dropLast())
                     }
-                    viewModel.cvv.inputValue = viewModel.cvvOnChange(viewModel.cvv.inputValue)
+                    (viewModel.cvv.inputValue, viewModel.cvv.showError) = viewModel.cvvOnChange(value: viewModel.cvv.inputValue, minLength: itemLength ?? 3)
                 }
             }
+
             // MARK: - Card Holder Name
             CustomTextField(imputValue: $viewModel.cardHolder.inputValue,
                             title: viewModel.cardHolder.title,
@@ -118,6 +123,30 @@ struct CreditCardView: View {
             Toggle(isOn: $viewModel.saveCard) {
                 Text("Save card data for future payments")
             }
+        }
+    }
+}
+
+struct DatePickerView: View {
+    @ObservedObject var viewModel: PaymentFormViewModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            MainTitle(titleText: viewModel.expirationDate.title,
+                      showError: viewModel.expirationDate.showError)
+
+            DatePicker("",
+                       selection: $viewModel.expirationDate.inputDate,
+                       in: Date()...,
+                       displayedComponents: [.date])
+                .datePickerStyle(.compact)
+                .frame(height: 48)
+                .padding(.trailing, 16)
+                .padding(.leading, 0)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
         }
     }
 }

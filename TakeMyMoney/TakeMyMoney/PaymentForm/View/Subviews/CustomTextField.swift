@@ -12,7 +12,7 @@ struct CustomTextField: View {
 
     var title: String
     var placeholder: String
-    var errorMessage: String = ""
+    var errorMessage: String = "Error"
     var showError: Bool = false
     var showImage: Bool = false
     var isSecure: Bool = false
@@ -20,7 +20,8 @@ struct CustomTextField: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            MainTitle(titleText: title, showError: showError)
+            MainTitle(titleText: title,
+                      showError: showError)
 
             ZStack {
                 HStack(alignment: .center) {
@@ -30,14 +31,16 @@ struct CustomTextField: View {
                             .padding(.trailing, -8)
                     }
                     if isSecure {
-                        SecureField(placeholder, text: $imputValue)
+                        SecureField(placeholder,
+                                    text: $imputValue)
                             .textFieldStyle(TextFieldStylesNormal())
                             .frame(height: 48)
                             .multilineTextAlignment(.leading)
                             .keyboardType(keyboardType)
 
                     } else {
-                        TextField(placeholder, text: $imputValue)
+                        TextField(placeholder,
+                                  text: $imputValue)
                             .textFieldStyle(TextFieldStylesNormal())
                             .frame(height: 48)
                             .multilineTextAlignment(.leading)
@@ -64,20 +67,24 @@ struct CustomTextField: View {
     }
 }
 
-struct CustomTextFieldV2_Previews: PreviewProvider {
+struct CustomTextField_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             CustomTextField(
                 imputValue: .constant(""),
                 title: "Title",
                 placeholder: "Some Text",
-                errorMessage: "Some Error Text",
+                errorMessage: "Warning!",
                 showError: true)
+            .padding()
 
             CustomTextField(
                 imputValue: .constant(""),
                 title: "Title",
-                placeholder: "Some Text")
+                placeholder: "Some Text",
+                errorMessage: "Warning!",
+                showError: false)
+            .padding()
         }
     }
 }

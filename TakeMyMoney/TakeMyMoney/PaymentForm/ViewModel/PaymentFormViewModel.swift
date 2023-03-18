@@ -21,16 +21,14 @@ class PaymentFormViewModel: ObservableObject {
         errorMessage: "Invalid Credit Card",
         showImage: true)
 
-    @Published var expirationDate = CustomTextFieldContentModel(
-        title: "Expiration Date",
-        placeholder: "MM/DD",
-        errorMessage: "Invalid Date")
-    private var previousDateTextCount: Int = 0
+    @Published var expirationDate = ExpirationDateModel(
+        title: "Expiration Date")
 
     @Published var cvv = CustomTextFieldContentModel(
         title: "CVV",
         itemLength: 3,
-        placeholder: "***")
+        placeholder: "***",
+        errorMessage: "Invalid CVV")
 
     @Published var cardHolder = CustomTextFieldContentModel(
         title: "Card Holder",
@@ -39,17 +37,21 @@ class PaymentFormViewModel: ObservableObject {
 
 
     // MARK: - OnChange
-    func creditCardOnChange(_ value: String) -> (String, Bool) {
-        return (formatCreditCard(value), false)
+    func creditCardOnChange(value: String, minLength: Int) -> (String, Bool) {
+        let formatedValue = formatCreditCard(value)
+        let showError = hasMinLenght(value: value, lenght: minLength)
+        return (formatedValue, showError)
     }
 
-    func expirationDateOnChange(_ value: String) -> (String, Bool) {
-        let formattedDate = dateFormat(value)
-        return (formattedDate, self.checkMinDate(value))
-    }
+//    func expirationDateOnChange(_ value: String) -> (String, Bool) {
+//        let formattedDate = dateFormat(value)
+//        return (formattedDate, self.checkMinDate(value))
+//    }
 
-    func cvvOnChange(_ value: String) -> String {
-        return limitValueLenght(value: value, valueLength: self.cvv.itemLength)
+    func cvvOnChange(value: String, minLength: Int) -> (String, Bool) {
+        let showError = hasMinLenght(value: value, lenght: minLength)
+        let valueWithLimitLenght = limitValueLenght(value: value, valueLength: self.cvv.itemLength)
+        return (valueWithLimitLenght, showError)
     }
 
     // MARK: - Validations
@@ -73,7 +75,7 @@ class PaymentFormViewModel: ObservableObject {
         return ""
     }
 
-    func validateMinDate(_ date: String) -> Bool {
+    private func validateMinDate(_ date: String) -> Bool {
         let today = Date()
         let dateFormatter = DateFormatter()
 
@@ -104,44 +106,49 @@ class PaymentFormViewModel: ObservableObject {
         return true
     }
 
-    func dateFormat(_ date: String) -> String {
-        var newDateString = date
+//    private func dateFormat(_ date: String) -> String {
+//        var newDateString = date
+//
+//        let dateState = dateFormatState(currentDateText: newDateString, previousDateTextCount: self.previousDateTextCount)
+//        switch dateState {
+//            case .adding:
+//                if newDateString.count == 2 {
+//                    newDateString.insert("/", at: newDateString.endIndex)
+//                } else if newDateString.count == 1 {
+//                    if newDateString != "1" && newDateString != "0" {
+//                        newDateString = "0" + newDateString
+//                    }
+//                }
+//                self.expirationDate.inputValue = newDateString
+//            case .extracting:
+//                if newDateString.count == 2 {
+//                    newDateString = String(newDateString.dropLast())
+//                }
+//                self.expirationDate.inputValue = newDateString
+//            case .full:
+//                break
+//            case .exceeded:
+//                newDateString = String(newDateString.dropLast())
+//                self.expirationDate.inputValue = newDateString
+//        }
+//        self.previousDateTextCount = newDateString.count
+//        return newDateString
+//    }
 
-        let dateState = dateFormatState(currentDateText: newDateString, previousDateTextCount: self.previousDateTextCount)
-        switch dateState {
-            case .adding:
-                if newDateString.count == 2 {
-                    newDateString.insert("/", at: newDateString.endIndex)
-                } else if newDateString.count == 1 {
-                    if newDateString != "1" && newDateString != "0" {
-                        newDateString = "0" + newDateString
-                    }
-                }
-                self.expirationDate.inputValue = newDateString
-            case .extracting:
-                if newDateString.count == 2 {
-                    newDateString = String(newDateString.dropLast())
-                }
-                self.expirationDate.inputValue = newDateString
-            case .full:
-                break
-            case .exceeded:
-                newDateString = String(newDateString.dropLast())
-                self.expirationDate.inputValue = newDateString
-        }
-        self.previousDateTextCount = newDateString.count
-        return newDateString
-    }
+//    private func dateFormatState(currentDateText: String, previousDateTextCount: Int) -> DateFormatterStatus {
+//        let maxDateCount: Int = 5
+//
+//        if currentDateText.count == maxDateCount { return .full }
+//        if currentDateText.count > maxDateCount { return .exceeded }
+//        if currentDateText.count > previousDateTextCount { return .adding }
+//        if currentDateText.count < previousDateTextCount { return .extracting }
+//
+//        return .adding
+//    }
 
-    private func dateFormatState(currentDateText: String, previousDateTextCount: Int) -> DateFormatterStatus {
-        let maxDateCount: Int = 5
-
-        if currentDateText.count == maxDateCount { return .full }
-        if currentDateText.count > maxDateCount { return .exceeded }
-        if currentDateText.count > previousDateTextCount { return .adding }
-        if currentDateText.count < previousDateTextCount { return .extracting }
-
-        return .adding
+    private func hasMinLenght(value: String, lenght: Int) -> Bool {
+        let minLengthValid: Bool = value.count != lenght
+        return minLengthValid
     }
 }
 
