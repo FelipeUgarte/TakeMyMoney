@@ -49,6 +49,5 @@ struct PaymentOptionButton_Previews: PreviewProvider {
                 state: true
             )
         }
-
     }
 }

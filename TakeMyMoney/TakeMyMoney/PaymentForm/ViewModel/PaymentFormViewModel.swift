@@ -8,11 +8,11 @@
 import SwiftUI
 
 class PaymentFormViewModel: ObservableObject {
-
+    @Published var selectedPaymentMethod: PaymentOption = .credit
     @Published var shoppingCart = ShoppingCartModel()
+
     @Published var paymentData = PaymentModel()
     @Published var saveCard: Bool = false
-
     @Published var creditCard = CustomTextFieldContentModel(
         title: "Credit Card",
         isSecure: true,
@@ -20,51 +20,52 @@ class PaymentFormViewModel: ObservableObject {
         placeholder: "**** **** **** ****",
         errorMessage: "Invalid Credit Card",
         showImage: true)
-
     @Published var expirationDate = ExpirationDateModel(
         title: "Expiration Date")
-
     @Published var cvv = CustomTextFieldContentModel(
         title: "CVV",
         itemLength: 3,
         placeholder: "***",
         errorMessage: "Invalid CVV")
-
     @Published var cardHolder = CustomTextFieldContentModel(
         title: "Card Holder",
         placeholder: "Your name and suremane",
         errorMessage: "Invalid Card Holder")
 
-
-    // MARK: - OnChange
-    func creditCardOnChange(value: String, minLength: Int) -> (String, Bool) {
-        let formatedValue = formatCreditCard(value)
-        let showError = hasMinLenght(value: value, lenght: minLength)
-        return (formatedValue, showError)
+    // MARK: - Button Actions
+    func purchaseButtonAction() {
+        errorValidations()
     }
 
-//    func expirationDateOnChange(_ value: String) -> (String, Bool) {
-//        let formattedDate = dateFormat(value)
-//        return (formattedDate, self.checkMinDate(value))
-//    }
+    // MARK: - OnChange
+    func creditCardOnChange() {
+        let value = creditCard.inputValue
+        creditCard.inputValue = formatCreditCard(value)
+    }
 
-    func cvvOnChange(value: String, minLength: Int) -> (String, Bool) {
-        let showError = hasMinLenght(value: value, lenght: minLength)
-        let valueWithLimitLenght = limitValueLenght(value: value, valueLength: self.cvv.itemLength)
-        return (valueWithLimitLenght, showError)
+    func cvvOnChange(){
+        let value = cvv.inputValue
+        cvv.inputValue = limitValueLenght(value: value, valueLength: self.cvv.itemLength)
+    }
+
+    func cardHolderOnChange() {
+        let value = cardHolder.inputValue
+        if let last = value.last, last.isNumber {
+            cardHolder.inputValue = String(value.dropLast())
+        }
     }
 
     // MARK: - Validations
-    func formatCreditCard(_ value: String) -> String {
+    private func formatCreditCard(_ value: String) -> String {
         return limitValueLenght(value: value, valueLength: self.creditCard.itemLength)
     }
 
-    func checkMinDate(_ date: String) -> Bool {
+    private func checkMinDate(_ date: String) -> Bool {
         guard !expirationDate.showError else { return false }
         return !validateMinDate(date)
     }
 
-    func limitValueLenght(value: String, valueLength: Int?) -> String {
+    private func limitValueLenght(value: String, valueLength: Int?) -> String {
         if value.removingWhitespaceAndNewlines().count > valueLength ?? 0 {
             return String(value.dropLast())
         }
@@ -106,49 +107,19 @@ class PaymentFormViewModel: ObservableObject {
         return true
     }
 
-//    private func dateFormat(_ date: String) -> String {
-//        var newDateString = date
-//
-//        let dateState = dateFormatState(currentDateText: newDateString, previousDateTextCount: self.previousDateTextCount)
-//        switch dateState {
-//            case .adding:
-//                if newDateString.count == 2 {
-//                    newDateString.insert("/", at: newDateString.endIndex)
-//                } else if newDateString.count == 1 {
-//                    if newDateString != "1" && newDateString != "0" {
-//                        newDateString = "0" + newDateString
-//                    }
-//                }
-//                self.expirationDate.inputValue = newDateString
-//            case .extracting:
-//                if newDateString.count == 2 {
-//                    newDateString = String(newDateString.dropLast())
-//                }
-//                self.expirationDate.inputValue = newDateString
-//            case .full:
-//                break
-//            case .exceeded:
-//                newDateString = String(newDateString.dropLast())
-//                self.expirationDate.inputValue = newDateString
-//        }
-//        self.previousDateTextCount = newDateString.count
-//        return newDateString
-//    }
-
-//    private func dateFormatState(currentDateText: String, previousDateTextCount: Int) -> DateFormatterStatus {
-//        let maxDateCount: Int = 5
-//
-//        if currentDateText.count == maxDateCount { return .full }
-//        if currentDateText.count > maxDateCount { return .exceeded }
-//        if currentDateText.count > previousDateTextCount { return .adding }
-//        if currentDateText.count < previousDateTextCount { return .extracting }
-//
-//        return .adding
-//    }
-
     private func hasMinLenght(value: String, lenght: Int) -> Bool {
         let minLengthValid: Bool = value.count != lenght
         return minLengthValid
+    }
+
+    private func containsSpace(_ text: String) -> Bool {
+        return text.contains(" ")
+    }
+
+    private func errorValidations() {
+        creditCard.showError = hasMinLenght(value: creditCard.inputValue, lenght: creditCard.itemLength ?? 0)
+        cvv.showError = hasMinLenght(value: cvv.inputValue, lenght: cvv.itemLength ?? 0)
+        cardHolder.showError = !containsSpace(cardHolder.inputValue)
     }
 }
 
@@ -169,4 +140,3 @@ extension PaymentFormViewModel {
         case exceeded
     }
 }
-
