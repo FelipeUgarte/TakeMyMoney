@@ -12,7 +12,7 @@ class PaymentFormViewModel: ObservableObject {
     @Published var shoppingCart = ShoppingCartModel()
 
     @Published var paymentData = PaymentModel()
-    @Published var saveCard: Bool = false
+    @Published var saveCreditCardSelected: Bool = false
     @Published var creditCard = CustomTextFieldContentModel(
         title: "Credit Card",
         isSecure: true,
@@ -35,6 +35,9 @@ class PaymentFormViewModel: ObservableObject {
     // MARK: - Button Actions
     func purchaseButtonAction() {
         errorValidations()
+        if saveCreditCardSelected {
+            saveCreditCard()
+        }
     }
 
     // MARK: - OnChange
@@ -120,6 +123,10 @@ class PaymentFormViewModel: ObservableObject {
         creditCard.showError = hasMinLenght(value: creditCard.inputValue, lenght: creditCard.itemLength ?? 0)
         cvv.showError = hasMinLenght(value: cvv.inputValue, lenght: cvv.itemLength ?? 0)
         cardHolder.showError = !containsSpace(cardHolder.inputValue)
+    }
+
+    private func saveCreditCard() {
+
     }
 }
 

@@ -50,7 +50,7 @@ struct CreditCardView: View {
             .onChange(of: viewModel.cardHolder.inputValue) { _ in
                 viewModel.cardHolderOnChange()
             }
-            Toggle(isOn: $viewModel.saveCard) {
+            Toggle(isOn: $viewModel.saveCreditCardSelected) {
                 Text("Save card data for future payments")
             }
         }
