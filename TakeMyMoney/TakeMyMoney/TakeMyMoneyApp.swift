@@ -11,7 +11,7 @@ import SwiftUI
 struct TakeMyMoneyApp: App {
     var body: some Scene {
         WindowGroup {
-            PaymentFormScreen()
+            PaymentFormView()
         }
     }
 }
