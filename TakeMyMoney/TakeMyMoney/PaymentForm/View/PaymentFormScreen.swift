@@ -1,13 +1,6 @@
-//
-//  ContentView.swift
-//  TakeMyMoney
-//
-//  Created by Felipe Ugarte on 14-01-23.
-//
-
 import SwiftUI
 
-struct PaymentFormView: View {
+struct PaymentFormScreen: View {
     @StateObject var viewModel = PaymentFormViewModel()
 
     var body: some View {
@@ -33,8 +26,8 @@ struct PaymentFormView: View {
                                 .font(.caption)
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
-                                    ForEach(viewModel.paymentData.paymentMethod.indices, id: \.self) { index in
-                                        let paymentMethod = viewModel.paymentData.paymentMethod[index]
+                                    ForEach(viewModel.paymentData.paymentMethods.indices, id: \.self) { index in
+                                        let paymentMethod = viewModel.paymentData.paymentMethods[index]
                                         PaymentOptionButton(
                                             title: paymentMethod.title.rawValue,
                                             state: paymentMethod.title == viewModel.selectedPaymentMethod
@@ -72,8 +65,8 @@ struct PaymentFormView: View {
     }
 }
 
-struct PaymentFormView_Previews: PreviewProvider {
+struct PaymentFormScreen_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentFormView()
+        PaymentFormScreen()
     }
 }

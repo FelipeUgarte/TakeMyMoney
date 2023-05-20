@@ -1,13 +1,7 @@
-//
-//  PaymentModel.swift
-//  TakeMyMoney
-//
-//  Created by Felipe Ugarte on 16-01-23.
-//
 import Combine
 
 class PaymentModel: ObservableObject {
-    @Published var paymentMethod = [
+    @Published var paymentMethods = [
         PaymentMethod(title: .paypal),
         PaymentMethod(title: .credit),
         PaymentMethod(title: .wallet)
