@@ -33,8 +33,8 @@ struct PaymentFormView: View {
                                 .font(.caption)
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
-                                    ForEach(viewModel.paymentData.paymentMethod.indices, id: \.self) { index in
-                                        let paymentMethod = viewModel.paymentData.paymentMethod[index]
+                                    ForEach(viewModel.paymentData.paymentMethods.indices, id: \.self) { index in
+                                        let paymentMethod = viewModel.paymentData.paymentMethods[index]
                                         PaymentOptionButton(
                                             title: paymentMethod.title.rawValue,
                                             state: paymentMethod.title == viewModel.selectedPaymentMethod
